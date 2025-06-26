@@ -1,0 +1,58 @@
+/* Container for the full news slide layout */
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+ 
+}
+
+@media (min-width: 640px) {
+  .swiper-slide {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Content box: title + line + description */
+.news-content {
+  padding: 1rem 0;
+  max-width: 600px;
+  
+}
+
+/* News Title (h3) */
+.news-content h3 {
+  font-size: 1.125rem;   /* ~ text-lg */
+  font-weight: 500;      /* ~ font-medium */
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  color: black;
+}
+
+.news-content h3:hover {
+  color: #194eaf;        /* ~ hover:text-blue-500 */
+}
+
+/* Underline line (colored bar) */
+.news-underline {
+  width: 3rem;
+  height: 4px;
+  background-color: #d4a404;  /* Your primary color */
+  margin-bottom: 1.25rem;
+}
+
+/* Description text */
+.news-description {
+  font-size: 0.875rem;   /* ~ text-sm */
+  color: #4b5563;        /* ~ text-gray-600 */
+}
+
+/* Image section */
+.news-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+}

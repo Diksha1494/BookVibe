@@ -1,0 +1,48 @@
+.heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.order-item {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+}
+
+.order-index {
+    padding: 4px;
+    background-color: #6c757d;
+    color: white;
+    width: 40px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.order-id {
+    font-weight: bold;
+}
+
+.text-muted {
+    color: #555;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.product-list {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.product-id {
+    color: #333;
+}
+
+.no-orders {
+    color: #444;
+    font-style: italic;
+}

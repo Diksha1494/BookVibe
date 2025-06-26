@@ -1,0 +1,147 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.dashboard-sidebar {
+  width: 80px;
+  background-color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-link {
+  height: 80px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6b21a8;
+}
+
+.sidebar-menu {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: #9ca3af;
+  font-size: 24px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #ffffff;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #9ca3af;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: #f87171;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: white;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.search-box input {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  width: 250px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.user-avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dashboard-content {
+  padding: 2rem;
+}
+
+.dashboard-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn.primary {
+  background-color: #6b21a8;
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #5b21b6;
+}
+
+.btn.outline {
+  border: 2px solid #6b21a8;
+  color: #6b21a8;
+}
+
+.btn.outline:hover {
+  background-color: #ede9fe;
+}
