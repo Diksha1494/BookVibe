@@ -1,0 +1,27 @@
+.select-group {
+  margin-bottom: 16px;
+}
+
+.select-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151; /* text-gray-700 */
+  margin-bottom: 4px;
+}
+
+.select-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.select-field:focus {
+  border-color: #60a5fa; /* blue-300 */
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
