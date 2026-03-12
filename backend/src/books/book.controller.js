@@ -19,21 +19,63 @@ const postABook = async (req, res) => {
 };
 
 //get all book
+// const getAllBooks = async (req, res) => {
+//   try {
+//     const books = await Book.find().sort({createdAt:-1}); // ✅ Fetch all books
+//     res.status(200).send({ // ✅ Send the response
+//       message: "Books fetched successfully",
+//       books: books,
+//     });
+//   } catch (error) {
+//     console.error("Error in fetching books:", error.message);
+//     res.status(500).send({
+//       message: "Failed to fetch books",
+//       error: error.message,
+//     });
+//   }
+// };
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find().sort({createdAt:-1}); // ✅ Fetch all books
-    res.status(200).send({ // ✅ Send the response
+    console.log("📥 GET /api/books called");
+
+    const books = await Book.find().sort({ createdAt: -1 });
+
+    console.log("📦 Books fetched:", books.length);
+    res.status(200).send({
       message: "Books fetched successfully",
       books: books,
     });
   } catch (error) {
-    console.error("Error in fetching books:", error.message);
+    console.error("❌ Error in getAllBooks:", error.message);
+    console.error("❌ Stack:", error.stack);  // ← This will help find the cause
+
     res.status(500).send({
       message: "Failed to fetch books",
       error: error.message,
     });
   }
 };
+
+const getBooksByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const books = await Book.find({
+      category: { $regex: new RegExp(`^${category}$`, "i") },
+    }).sort({ createdAt: -1 });
+
+    res.status(200).send({
+      message: "Books fetched successfully",
+      books,
+    });
+  } catch (error) {
+    console.error("Error in fetching books by category:", error.message);
+    res.status(500).send({
+      message: "Failed to fetch books by category",
+      error: error.message,
+    });
+  }
+};
+
 const getSingleBook = async(req,res) => {
     try {
    const {id} = req.params;
@@ -93,6 +135,7 @@ const deleteBook = await Book.findByIdAndDelete(id);
 module.exports = { 
     postABook ,
     getAllBooks,
+    getBooksByCategory,
     getSingleBook,
     UpdateBook,
     deleteABook

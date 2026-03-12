@@ -1,0 +1,58 @@
+const sampleBooks = [
+  {
+    title: 'ICSE Mathematics Guide',
+    description: 'A practical mathematics guide for ICSE students with solved examples and revision exercises.',
+    category: 'ICSE',
+    trending: true,
+    coverImage: 'icse-mathematics-guide.jpg',
+    oldPrice: 499,
+    newPrice: 399,
+  },
+  {
+    title: 'CBSE Physics Class 10',
+    description: 'Concept-based CBSE physics preparation book designed for class 10 board exam students.',
+    category: 'CBSE',
+    trending: false,
+    coverImage: 'cbse-physics-class-10.jpg',
+    oldPrice: 450,
+    newPrice: 360,
+  },
+  {
+    title: 'NCERT Biology',
+    description: 'School biology reference book with diagrams, chapter summaries, and practice questions.',
+    category: 'School',
+    trending: true,
+    coverImage: 'ncert-biology.jpg',
+    oldPrice: 420,
+    newPrice: 325,
+  },
+  {
+    title: 'Bhagavad Gita',
+    description: 'A devotional classic with timeless spiritual teachings and reflective commentary.',
+    category: 'Devotional',
+    trending: true,
+    coverImage: 'bhagavad-gita.jpg',
+    oldPrice: 350,
+    newPrice: 275,
+  },
+  {
+    title: 'Ramayana',
+    description: 'An accessible edition of the Ramayana for readers interested in devotion and epic literature.',
+    category: 'Devotional',
+    trending: false,
+    coverImage: 'ramayana.jpg',
+    oldPrice: 520,
+    newPrice: 430,
+  },
+  {
+    title: 'Hanuman Chalisa',
+    description: 'Compact devotional edition with transliteration and meaning for everyday reading.',
+    category: 'Devotional',
+    trending: true,
+    coverImage: 'hanuman-chalisa.jpg',
+    oldPrice: 180,
+    newPrice: 120,
+  },
+];
+
+module.exports = sampleBooks;

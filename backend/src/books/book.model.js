@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+const bookCategories = [
+    'business',
+    'technology',
+    'fiction',
+    'horror',
+    'adventure',
+    'School',
+    'ICSE',
+    'CBSE',
+    'Business',
+    'Fiction',
+    'Horror',
+    'Adventure',
+    'Devotional'
+];
+
 const bookSchema = new mongoose.Schema({ //all are taken from book.json file
 
     title:{
@@ -14,6 +30,7 @@ const bookSchema = new mongoose.Schema({ //all are taken from book.json file
     category:{
         type: String,
   required:true,
+  enum: bookCategories,
     },
     trending:{
         type: Boolean,
@@ -25,10 +42,10 @@ const bookSchema = new mongoose.Schema({ //all are taken from book.json file
    },
    oldprice:Number,
    newPrice:Number,
-   createdAt:{
-    type:Date,
-    default: Date.now,
-   }
+  //  createdAt:{
+  //   type:Date,
+  //   default: Date.now,
+  //  }
 },{
     timestamps:true,
  }
