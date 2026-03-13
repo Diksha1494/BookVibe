@@ -1,10 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
 import './banner.css'; // Import CSS
-=======
 import { useNavigate } from 'react-router-dom';
-import './Banner.css'; // Import CSS
->>>>>>> 8c6c74b (changes in frontend)
 import bannerImg from "../../assets/banner.png";
 
 const Banner = () => {
