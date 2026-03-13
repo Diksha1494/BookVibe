@@ -1,0 +1,130 @@
+.top-sellers-section {
+  padding: 4rem 1rem; /* Mobile padding */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .top-sellers-section {
+    padding: 2rem 1rem; /* Desktop/tablet padding */
+  }
+}
+
+.top-sellers-title {
+  font-size: 2rem; /* text-3xl = ~2rem */
+  font-weight: 700;
+  margin-bottom: 1.75rem;
+  color:var(--text-color);
+}
+
+.top-sellers-filter {
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quick-categories {
+  margin-top: -1.5rem;
+  flex-wrap: wrap;
+}
+
+.top-category-chip {
+  border: 1px solid rgba(79, 70, 229, 0.16);
+  background-color: var(--surface-elevated);
+  color: var(--text-color);
+  border-radius: 999px;
+  padding: 0.72rem 1.1rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.top-category-chip:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.top-sellers-select {
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-elevated);
+  border-radius: 0.65rem;
+  padding: 0.7rem 1rem;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: var(--shadow-soft);
+  color: var(--text-color);
+}
+
+.top-sellers-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.mySwiper {
+  width: 100%;
+  padding-bottom: 3rem;
+  z-index: 1;
+  background-color:  var(--bg-color);
+}
+
+/* Swiper navigation arrows */
+.swiper-button-prev,
+.swiper-button-next {
+   border-radius: 50%;
+   background-color: var(--surface-elevated);
+   font-size: 1.5rem;
+   box-shadow: var(--shadow-soft);
+   color: var(--primary-color);
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  
+}
+
+
+.slider-wrapper {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 16px;
+}
+
+@media (max-width: 639px) {
+  .top-sellers-section {
+    padding: 2rem 0;
+  }
+
+  .top-sellers-title {
+    font-size: 1.5rem;
+  }
+
+  .top-sellers-filter {
+    width: 100%;
+  }
+
+  .quick-categories {
+    margin-top: -1rem;
+  }
+
+  .top-sellers-select {
+    width: 100%;
+  }
+
+  .slider-wrapper {
+    margin-top: 1.25rem;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1024px) {
+  .top-sellers-section {
+    padding: 2.5rem 0.5rem;
+  }
+}

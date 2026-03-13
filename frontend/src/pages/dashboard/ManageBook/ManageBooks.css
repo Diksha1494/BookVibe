@@ -1,0 +1,124 @@
+.manage-books-section {
+  padding-top: 24px;
+  background-color: transparent;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.table-card {
+  background-color: #111827;
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.12), transparent);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.see-all-btn {
+  background: linear-gradient(135deg, var(--primary-color), #6d28d9);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.65rem 0.95rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.see-all-btn:hover {
+  background: var(--accent-color);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.book-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.book-table thead {
+  background-color: #0f172a;
+}
+
+.book-table th,
+.book-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  text-align: left;
+  color: #e5e7eb;
+}
+
+.book-table tbody tr:hover {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit-link {
+  color: #c4b5fd;
+  text-decoration: none;
+  font-weight: 700;
+  background: rgba(79, 70, 229, 0.08);
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+}
+
+.edit-link:hover {
+  color: #ffffff;
+  background: #3730a3;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}
+
+@media (max-width: 640px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .actions-cell {
+    flex-wrap: wrap;
+  }
+}

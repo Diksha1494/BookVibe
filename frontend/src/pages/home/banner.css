@@ -1,0 +1,132 @@
+/* Reset box sizing for safety */
+* {
+  box-sizing: border-box;
+}
+
+/* Container */
+.banner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem 1.5rem;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(249, 115, 22, 0.08));
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 768px) {
+  .banner-container {
+    flex-direction: row-reverse;
+    padding: 4rem;
+    gap: 2rem;
+  }
+}
+
+/* Image wrapper */
+.banner-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .banner-image-wrapper {
+    width: 50%;
+    justify-content: flex-end;
+  }
+}
+
+.banner-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 30px rgba(79, 70, 229, 0.14));
+}
+
+/* Text content */
+.banner-content {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .banner-content {
+    width: 50%;
+  }
+}
+
+.banner-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.75rem;
+   color: var(--text-color);
+}
+
+@media (min-width: 768px) {
+  .banner-title {
+    font-size: 3rem;
+  }
+}
+
+.banner-description {
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  max-width: 40rem;
+}
+
+/* Subscribe button */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 0.75rem 2rem;
+  border-radius: 0.65rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(202, 138, 4, 0.24);
+}
+
+@media (max-width: 600px) {
+  .banner-container {
+    padding: 1.5rem 1rem;
+    gap: 1.75rem;
+    border-radius: 16px;
+  }
+
+  .banner-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .banner-description {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .banner-container {
+    padding: 2.25rem 1.5rem;
+  }
+
+  .banner-title {
+    font-size: 2.4rem;
+  }
+}

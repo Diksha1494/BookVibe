@@ -1,0 +1,30 @@
+<svg width="760" height="180" viewBox="0 0 760 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bookvibeBookGradient" x1="64" y1="34" x2="188" y2="148" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B26B6"/>
+      <stop offset="0.52" stop-color="#5A2CCF"/>
+      <stop offset="1" stop-color="#F02B93"/>
+    </linearGradient>
+    <linearGradient id="bookvibeWordGradient" x1="232" y1="38" x2="512" y2="122" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B26B6"/>
+      <stop offset="0.55" stop-color="#4A2BC8"/>
+      <stop offset="1" stop-color="#FF2A8A"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(12 10)">
+    <path d="M34 54C69 54 93 64 117 84V145C93 129 67 122 34 120V54Z" fill="url(#bookvibeBookGradient)"/>
+    <path d="M160 54C125 54 101 64 77 84V145C101 129 127 122 160 120V54Z" fill="url(#bookvibeBookGradient)"/>
+    <path d="M23 48C56 48 84 58 110 80" stroke="#4827BE" stroke-width="10" stroke-linecap="round"/>
+    <path d="M171 48C138 48 110 58 84 80" stroke="#F02B93" stroke-width="10" stroke-linecap="round"/>
+    <path d="M26 50L29 134C55 136 83 146 109 164C135 146 163 136 189 134L192 50" stroke="#4A2BC8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M56 108C72 110 90 106 105 92C119 79 134 66 153 61" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round"/>
+    <path d="M53 98C69 100 86 96 99 83C112 71 126 60 145 54" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round"/>
+    <path d="M55 119C75 120 94 113 109 100C121 90 133 82 146 78" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round"/>
+    <path d="M76 23L80 33L90 37L80 41L76 51L72 41L62 37L72 33L76 23Z" fill="#E91E8F"/>
+    <path d="M119 12L122 20L130 23L122 26L119 34L116 26L108 23L116 20L119 12Z" fill="#F7B92C"/>
+  </g>
+
+  <text x="220" y="103" fill="url(#bookvibeWordGradient)" font-size="86" font-family="Poppins, Inter, Arial, sans-serif" font-weight="800" letter-spacing="-0.04em">BookVibe</text>
+  <text x="224" y="146" fill="#3F4254" font-size="35" font-family="Poppins, Inter, Arial, sans-serif" font-weight="500">Find books that match your vibe</text>
+</svg>

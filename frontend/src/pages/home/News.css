@@ -1,0 +1,73 @@
+/* Container for the full news slide layout */
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+ 
+}
+
+@media (min-width: 640px) {
+  .swiper-slide {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Content box: title + line + description */
+.news-content {
+  padding: 1rem 0;
+  max-width: 600px;
+}
+
+/* News Title (h3) */
+.news-content h3 {
+  font-size: 1.125rem;   /* ~ text-lg */
+  font-weight: 500;      /* ~ font-medium */
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.news-content h3:hover {
+  color: var(--primary-color);        /* ~ hover:text-blue-500 */
+}
+
+/* Underline line (colored bar) */
+.news-underline {
+  width: 3rem;
+  height: 4px;
+  background-color: var(--accent-color);  /* Your primary color */
+  margin-bottom: 1.25rem;
+}
+
+/* Description text */
+.news-description {
+  font-size: 0.875rem;   /* ~ text-sm */
+  color: var(--text-soft);        /* ~ text-gray-600 */
+}
+
+/* Image section */
+.news-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 600px) {
+  .swiper-slide {
+    gap: 1.5rem;
+  }
+
+  .news-content {
+    padding: 0.5rem 0;
+  }
+
+  .news-content h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+}

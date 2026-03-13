@@ -1,0 +1,53 @@
+.books-page {
+  padding: 1.5rem 0 2rem;
+}
+
+.books-page-header {
+  margin-bottom: 1.5rem;
+}
+
+.books-page-eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+
+.books-page-title {
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  color: var(--text-color);
+}
+
+.books-page-description {
+  margin: 0.7rem 0 0;
+  max-width: 42rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.books-page-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.15rem;
+}
+
+.books-page-state {
+  padding: 2rem 0;
+  color: var(--text-soft);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .books-page-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1025px) {
+  .books-page-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
