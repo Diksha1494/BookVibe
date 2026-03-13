@@ -9,7 +9,12 @@ const Banner = () => {
   return (
     <div className="banner-container">
       <div className="banner-image-wrapper">
-        <img src={bannerImg} alt="Banner" className="banner-image" />
+        <img
+          src={bannerImg}
+          alt="Featured books banner"
+          className="banner-image"
+          loading="eager"
+        />
       </div>
 
       <div className="banner-content">
