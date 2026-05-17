@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa"
 import './Login.css'
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
+import UpdateBook from './../pages/dashboard/EditBook/UpdateBook';
 
 const Register = () => {
     const [message, setMessage] = useState("")
@@ -99,7 +100,7 @@ console.error(error)
             className='google-button'
           >
             <FaGoogle className='mr-2' />
-            Sign in with Google
+            Sign Up with Google
           </button>
         </div>
 
