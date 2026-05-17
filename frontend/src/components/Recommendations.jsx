@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Recommendation.css';
+import getBaseUrl from '../utils/baseURL';
 
 function Recommendations() {
   const [history, setHistory] = useState('');
@@ -11,7 +12,7 @@ function Recommendations() {
     setLoading(true); // ✅ start loading
     setRecommendations('');
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/recommend', {
+      const res = await axios.post(`${getBaseUrl()}/api/ai/recommend`, {
         userHistory: history,
       });
       setRecommendations(res.data.recommendations);
