@@ -1,12 +1,12 @@
 import axios from "axios";
 import getBaseUrl from "../utils/baseURL";
 
-const marketplaceClient = axios.create({
-  baseURL: `${getBaseUrl()}/api/marketplace`,
+const apiClient = axios.create({
+  baseURL: `${getBaseUrl()}/api`,
   withCredentials: true,
 });
 
-marketplaceClient.interceptors.request.use((config) => {
+apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("userToken") || localStorage.getItem("token");
 
   if (token) {
@@ -19,28 +19,58 @@ marketplaceClient.interceptors.request.use((config) => {
 const extractData = (response) => response?.data ?? response;
 
 export const marketplaceApi = {
-  async getBorrowRequests() {
-    const response = await marketplaceClient.get("/borrow-requests");
+  async createListing(payload) {
+    const response = await apiClient.post("/books/marketplace", payload);
     return extractData(response);
   },
 
-  async createBorrowRequest(payload) {
-    const response = await marketplaceClient.post("/borrow-requests", payload);
+  async getMyListings() {
+    const response = await apiClient.get("/books/marketplace/my-listings");
+    return extractData(response);
+  },
+
+  async deleteMyListing(id) {
+    const response = await apiClient.delete(`/books/marketplace/${id}`);
+    return extractData(response);
+  },
+
+  async createBorrowRequest(bookId) {
+    const response = await apiClient.post(`/borrow/${bookId}`);
+    return extractData(response);
+  },
+
+  async getBorrowRequests() {
+    const response = await apiClient.get("/borrow/my-requests");
+    return extractData(response);
+  },
+
+  async getIncomingBorrowRequests() {
+    const response = await apiClient.get("/borrow/incoming");
+    return extractData(response);
+  },
+
+  async updateBorrowStatus(requestId, status) {
+    const response = await apiClient.patch(`/borrow/${requestId}/status`, { status });
+    return extractData(response);
+  },
+
+  async createExchangeRequest({ requestedBookId, offeredBookId }) {
+    const response = await apiClient.post("/exchange", { requestedBookId, offeredBookId });
     return extractData(response);
   },
 
   async getExchangeRequests() {
-    const response = await marketplaceClient.get("/exchange-requests");
+    const response = await apiClient.get("/exchange/my-requests");
     return extractData(response);
   },
 
-  async createExchangeRequest(payload) {
-    const response = await marketplaceClient.post("/exchange-requests", payload);
+  async getIncomingExchangeRequests() {
+    const response = await apiClient.get("/exchange/incoming");
     return extractData(response);
   },
 
-  async getBorrowHistory() {
-    const response = await marketplaceClient.get("/borrow-history");
+  async updateExchangeStatus(requestId, status) {
+    const response = await apiClient.patch(`/exchange/${requestId}/status`, { status });
     return extractData(response);
   },
 };

@@ -7,8 +7,7 @@ import Swal from 'sweetalert2';
 import './AddBook.css'; // Import the CSS file
 
 const AddBook = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageFile, setimageFile] = useState(null);
+  const { register, handleSubmit, reset } = useForm();
   const [addBook, { isLoading }] = useAddBookMutation();
   const [imageFileName, setimageFileName] = useState('');
 
@@ -31,7 +30,6 @@ const AddBook = () => {
       });
       reset();
       setimageFileName('');
-      setimageFile(null);
     } catch (error) {
       console.error(error);
       alert("Failed to add book. Please try again.");
@@ -41,7 +39,6 @@ const AddBook = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setimageFile(file);
       setimageFileName(file.name);
     }
   };

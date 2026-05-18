@@ -21,7 +21,7 @@ const signUserToken = (user) =>
   );
 
 const serializeUser = (user) => ({
-  id: user._id,
+  id: user._id.toString(),
   username: user.username,
   email: user.email,
   role: user.role,
@@ -30,6 +30,10 @@ const serializeUser = (user) => ({
 
 router.post("/register", async (req, res) => {
   try {
+    if (!JWT_SECRET) {
+      return res.status(500).json({ message: "Server configuration error." });
+    }
+
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
@@ -80,10 +84,14 @@ router.post("/login", async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: normalizedEmail, role: "user" });
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    if (user.role !== "user") {
+      return res.status(403).json({ message: "This is an admin account. Please use the admin login page." });
     }
 
     const isPasswordValid = await user.comparePassword(password);
@@ -190,7 +198,7 @@ router.post("/admin", async (req, res) => {
 
     if (!admin) {
       console.warn("[ADMIN_LOGIN] Admin not found", { email: normalizedEmail });
-      return res.status(404).send({ message: "Admin not found!" });
+      return res.status(401).json({ message: "Invalid admin credentials." });
     }
 
     console.log("[ADMIN_LOGIN] Admin record found", {
@@ -204,7 +212,7 @@ router.post("/admin", async (req, res) => {
     const isPasswordValid = await admin.comparePassword(password);
     if (!isPasswordValid) {
       console.warn("[ADMIN_LOGIN] Password mismatch", { email: normalizedEmail });
-      return res.status(401).send({ message: "Invalid password!" });
+      return res.status(401).json({ message: "Invalid admin credentials." });
     }
 
     console.log("[ADMIN_LOGIN] Password matched", { email: normalizedEmail });
@@ -225,6 +233,7 @@ router.post("/admin", async (req, res) => {
       message: "Authentication successful",
       token,
       user: {
+        id: admin._id.toString(),
         username: admin.username,
         email: admin.email,
         role: admin.role,

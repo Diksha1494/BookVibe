@@ -5,6 +5,7 @@ const sidebarLinks = [
   { label: "My Listings", to: "/my-listings" },
   { label: "Borrow Requests", to: "/borrow-requests" },
   { label: "Exchange Requests", to: "/exchange-requests" },
+  { label: "Incoming Requests", to: "/incoming-requests" },
 ];
 
 const MarketplaceSidebar = () => {

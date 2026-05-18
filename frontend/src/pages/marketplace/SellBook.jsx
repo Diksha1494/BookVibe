@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import MarketplaceDashboardShell from "../../components/marketplace/MarketplaceDashboardShell";
-import { addMarketplaceListing } from "../../utils/marketplaceStorage";
+import marketplaceApi from "../../services/marketplaceApi";
 
 const initialState = {
   title: "",
@@ -66,26 +66,22 @@ const SellBook = () => {
     setError("");
 
     try {
-      addMarketplaceListing({
+      await marketplaceApi.createListing({
         title: formState.title.trim(),
         author: formState.author.trim(),
         description: formState.description.trim(),
         condition: formState.condition,
-        price: Number(formState.price),
         newPrice: Number(formState.price),
         oldPrice: Number(formState.price),
         listingMode: formState.bookMode,
-        availabilityStatus: "available",
         coverImage: formState.imagePreview,
-        ownerEmail: currentUser?.email || "",
-        ownerName: currentUser?.displayName || currentUser?.email?.split("@")[0] || "Community Seller",
       });
 
       await Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: "Listing saved to marketplace dashboard",
+        title: "Listing saved to marketplace",
         showConfirmButton: false,
         timer: 2200,
       });

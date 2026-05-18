@@ -41,7 +41,46 @@ const bookSchema = new mongoose.Schema({ //all are taken from book.json file
   required:true,
    },
    oldprice:Number,
+   oldPrice:Number,
    newPrice:Number,
+   author: {
+    type: String,
+    trim: true,
+    default: "",
+   },
+   condition: {
+    type: String,
+    enum: ["like-new", "good", "fair", "used"],
+    default: "good",
+   },
+   owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+   },
+   ownerName: {
+    type: String,
+    trim: true,
+    default: "",
+   },
+   listingMode: {
+    type: String,
+    enum: ["sell", "borrow", "exchange"],
+    default: "sell",
+   },
+   availabilityStatus: {
+    type: String,
+    enum: ["available", "borrowed", "exchanged", "sold", "reserved", "inactive"],
+    default: "available",
+   },
+   borrowEnabled: {
+    type: Boolean,
+    default: false,
+   },
+   exchangeEnabled: {
+    type: Boolean,
+    default: false,
+   },
   //  createdAt:{
   //   type:Date,
   //   default: Date.now,
@@ -50,6 +89,9 @@ const bookSchema = new mongoose.Schema({ //all are taken from book.json file
     timestamps:true,
  }
 );
+bookSchema.index({ owner: 1, createdAt: -1 });
+bookSchema.index({ listingMode: 1, availabilityStatus: 1 });
+
 const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book;

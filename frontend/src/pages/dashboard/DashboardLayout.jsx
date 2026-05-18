@@ -1,18 +1,18 @@
-// DashboardLayout.jsx
-import axios from 'axios';
 import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { HiViewGridAdd } from "react-icons/hi";
 import { MdOutlineManageHistory } from "react-icons/md";
 import bookvibeLogo from '../../assets/bookvibe-logo.svg';
 import './DashboardLayout.css'; // Import CSS file
+import { clearAdminSession, getAdminUser } from '../../utils/authStorage';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
+  const adminUser = getAdminUser();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate("/");
+    clearAdminSession();
+    navigate("/admin", { replace: true });
   };
 
   return (
@@ -41,8 +41,8 @@ const DashboardLayout = () => {
             <input type="text" placeholder="Search..." />
           </div>
           <div className="user-info">
-            <span className="user-name">Diksha Rai</span>
-            <span className="user-role">Undergraduate </span>
+            <span className="user-name">{adminUser?.username || "Admin"}</span>
+            <span className="user-role">Administrator</span>
             <img src="/pic.jpg" alt="User" className="user-avatar" />
           </div>
         </header>

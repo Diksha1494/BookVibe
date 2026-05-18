@@ -1,24 +1,33 @@
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 import MarketplaceDashboardShell from "../../components/marketplace/MarketplaceDashboardShell";
 import BookBadge from "../../components/marketplace/BookBadge";
 import StatusBadge from "../../components/marketplace/StatusBadge";
-import useMarketplaceCollection from "../../hooks/useMarketplaceCollection";
-import { getMarketplaceListings, removeMarketplaceListing } from "../../utils/marketplaceStorage";
+import marketplaceApi from "../../services/marketplaceApi";
 import { getImgUrl } from "../../utils/getImgUrl";
 
 const MyListings = () => {
-  const auth = useAuth?.();
-  const currentUser = auth?.currentUser || null;
-  const { items: listings, loading, refresh } = useMarketplaceCollection(getMarketplaceListings);
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const myEmail = currentUser?.email || "";
-  const visibleListings = listings.filter((listing) => !myEmail || listing?.ownerEmail === myEmail);
+  const fetchListings = async () => {
+    setLoading(true);
+    try {
+      const data = await marketplaceApi.getMyListings();
+      setListings(data?.books || []);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
 
   const handleDelete = async (id) => {
-    removeMarketplaceListing(id);
-    refresh();
+    await marketplaceApi.deleteMyListing(id);
+    setListings((prev) => prev.filter((listing) => listing?._id !== id));
     await Swal.fire({
       toast: true,
       position: "top-end",
@@ -41,9 +50,9 @@ const MyListings = () => {
     >
       {loading ? <div className="marketplace-empty-state">Loading your listings...</div> : null}
 
-      {!loading && visibleListings.length ? (
+      {!loading && listings.length ? (
         <div className="listing-grid">
-          {visibleListings.map((listing) => (
+          {listings.map((listing) => (
             <article key={listing?._id} className="listing-card">
               <img
                 src={listing?.coverImage ? listing.coverImage : getImgUrl("book-1.png")}
@@ -72,7 +81,7 @@ const MyListings = () => {
         </div>
       ) : null}
 
-      {!loading && !visibleListings.length ? (
+      {!loading && !listings.length ? (
         <div className="marketplace-empty-state">You have not added any marketplace listings yet.</div>
       ) : null}
     </MarketplaceDashboardShell>

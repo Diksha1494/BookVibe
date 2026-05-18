@@ -4,7 +4,6 @@ import { FaGoogle } from "react-icons/fa"
 import './Login.css'
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
-import UpdateBook from './../pages/dashboard/EditBook/UpdateBook';
 
 const Register = () => {
     const [message, setMessage] = useState("")
@@ -56,6 +55,7 @@ console.error(error)
               placeholder='Username'
               className='input'
             />
+            {errors.username && <p className='error-text'>Username is required.</p>}
           </div>
 
           <div className='form-group'>
@@ -68,6 +68,7 @@ console.error(error)
               placeholder='Email Address'
               className='input'
             />
+            {errors.email && <p className='error-text'>Email is required.</p>}
           </div>
 
           <div className='form-group'>
@@ -80,6 +81,7 @@ console.error(error)
               placeholder='Password'
               className='input'
             />
+            {errors.password && <p className='error-text'>Password is required.</p>}
           </div>
 
           {message && <p className='error-text'>{message}</p>}

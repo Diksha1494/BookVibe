@@ -15,7 +15,6 @@ const Login = () => {
 	   const {
 	        register,
 	        handleSubmit,
-        watch,
         formState: { errors },
       } = useForm()
 
@@ -28,8 +27,13 @@ const onSubmit = async (data)=> {
 	    alert("logged in successfully!");
 	    navigate("/")
 	    }catch(error){
-	setMessage(error?.response?.data?.message || "Please enter a valid email and password")
-	console.error(error)
+      const status = error?.response?.status;
+      const detail = error?.response?.data?.message;
+	setMessage(detail || (status === 401 ? "Invalid email or password." : "Login failed. Please try again."))
+	console.error("[LOGIN_UI]", {
+        status,
+        message: detail || error.message,
+      })
 	    } finally {
       setSubmitting(false)
 	    }
@@ -65,6 +69,7 @@ const handleGoogleSignIn = async() => {
               placeholder='Email Address'
               className='input'
             />
+            {errors.email && <p className='error-text'>Email is required.</p>}
           </div>
 
           <div className='form-group'>
@@ -77,6 +82,7 @@ const handleGoogleSignIn = async() => {
               placeholder='Password'
               className='input'
             />
+            {errors.password && <p className='error-text'>Password is required.</p>}
           </div>
 
 	          {message && <p className='error-text'>{message}</p>}
@@ -88,6 +94,10 @@ const handleGoogleSignIn = async() => {
 
         <p className='redirect-text'>
           Haven't an account? Please <Link to="/register" className='text-blue-500 hover:text-blue-700' style={{textDecoration:"none"}}>Register</Link>
+        </p>
+
+        <p className='redirect-text'>
+          Admin account? <Link to="/admin" className='text-blue-500 hover:text-blue-700' style={{textDecoration:"none"}}>Use admin login</Link>
         </p>
 
         {/* Google sign in */}

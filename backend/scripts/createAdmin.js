@@ -22,7 +22,25 @@ const run = async () => {
   });
 
   if (existingAdmin) {
-    console.log("Admin already exists.");
+    let changed = false;
+
+    if (existingAdmin.role !== "admin") {
+      existingAdmin.role = "admin";
+      changed = true;
+    }
+
+    if (!(await existingAdmin.comparePassword(ADMIN_USER.password))) {
+      existingAdmin.password = ADMIN_USER.password;
+      changed = true;
+    }
+
+    if (changed) {
+      await existingAdmin.save();
+      console.log("Existing admin account updated.");
+    } else {
+      console.log("Admin already exists.");
+    }
+
     console.log({
       id: existingAdmin._id.toString(),
       username: existingAdmin.username,

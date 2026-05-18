@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import getBaseUrl from '../../utils/baseURL';
+import { clearAdminSession, getAdminToken } from '../../utils/authStorage';
 import { MdIncompleteCircle } from 'react-icons/md';
 import RevenueChart from './RevenueChart';
 import './Dashboard.css';
@@ -17,19 +18,28 @@ const Dashboard = () => {
       try {
         const response = await axios.get(`${getBaseUrl()}/api/admin`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${getAdminToken()}`,
             'Content-Type': 'application/json',
           },
         });
         setData(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error:', error);
+        console.error('[ADMIN_DASHBOARD] Failed to fetch stats:', {
+          status: error?.response?.status,
+          message: error?.response?.data?.message || error.message,
+        });
+        if ([401, 403].includes(error?.response?.status)) {
+          clearAdminSession();
+          navigate('/admin', { replace: true });
+          return;
+        }
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   if (loading) return <Loading />;
 

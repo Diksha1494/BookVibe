@@ -3,6 +3,12 @@ import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.congif";
 import getBaseUrl from "../utils/baseURL";
+import {
+  clearAllAuthSessions,
+  clearUserSession,
+  saveUserSession,
+  USER_TOKEN_KEY,
+} from "../utils/authStorage";
 
 const AuthContext = createContext();
 
@@ -11,9 +17,6 @@ export const useAuth = () => {
 };
 
 const googleProvider = new GoogleAuthProvider();
-const USER_TOKEN_KEY = "userToken";
-const ADMIN_TOKEN_KEY = "token";
-
 export const AuthProvide = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +39,11 @@ export const AuthProvide = ({ children }) => {
 
       setCurrentUser(response.data.user);
     } catch (error) {
-      localStorage.removeItem(USER_TOKEN_KEY);
+      console.error("[AUTH] Failed to restore user session", {
+        status: error?.response?.status,
+        message: error?.response?.data?.message || error.message,
+      });
+      clearUserSession();
       setCurrentUser(null);
     } finally {
       setLoading(false);
@@ -49,9 +56,9 @@ export const AuthProvide = ({ children }) => {
 
   const registerUser = async (email, password, username) => {
   const response = await axios.post(`${getBaseUrl()}/api/auth/register`, {
-    email,
+    email: email.trim(),
     password,
-    username,
+    username: username.trim(),
   });
 
   return response.data;
@@ -59,11 +66,11 @@ export const AuthProvide = ({ children }) => {
 
   const loginUser = async (email, password) => {
     const response = await axios.post(`${getBaseUrl()}/api/auth/login`, {
-      email,
+      email: email.trim(),
       password,
     });
 
-    localStorage.setItem(USER_TOKEN_KEY, response.data.token);
+    saveUserSession(response.data);
     setCurrentUser(response.data.user);
     return response.data;
   };
@@ -77,7 +84,7 @@ export const AuthProvide = ({ children }) => {
       username: googleUser.displayName || googleUser.email?.split("@")[0],
     });
 
-    localStorage.setItem(USER_TOKEN_KEY, response.data.token);
+    saveUserSession(response.data);
     setCurrentUser({
       ...response.data.user,
       displayName: googleUser.displayName || response.data.user?.username,
@@ -89,8 +96,7 @@ export const AuthProvide = ({ children }) => {
 
   const logout = async () => {
     await signOut(auth).catch(() => {});
-    localStorage.removeItem(USER_TOKEN_KEY);
-    localStorage.removeItem(ADMIN_TOKEN_KEY);
+    clearAllAuthSessions();
     setCurrentUser(null);
   };
 

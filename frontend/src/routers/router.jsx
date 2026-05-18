@@ -23,6 +23,7 @@ import SellBook from "../pages/marketplace/SellBook";
 import MyListings from "../pages/marketplace/MyListings";
 import BorrowRequests from "../pages/marketplace/BorrowRequests";
 import ExchangeRequests from "../pages/marketplace/ExchangeRequests";
+import IncomingRequests from "../pages/marketplace/IncomingRequests";
 
 const router = createBrowserRouter([
     {
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
         {
           path: "/exchange-requests",
           element: <PrivateRoute><ExchangeRequests/></PrivateRoute>
+        },
+        {
+          path: "/incoming-requests",
+          element: <PrivateRoute><IncomingRequests/></PrivateRoute>
         },
         {
   path: "/recommend",

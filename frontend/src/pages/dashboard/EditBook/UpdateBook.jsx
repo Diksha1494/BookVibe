@@ -3,18 +3,18 @@ import InputField from '../addbook/InputField'
 import SelectField from '../addbook/SelectField'
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { useFetchBookByIdQuery, useUpdateBookMutation } from '../../../redux/features/books/booksApi';
+import { useFetchBookByIdQuery } from '../../../redux/features/books/booksApi';
 import Loading from '../../../components/Loading';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import getBaseUrl from '../../../utils/baseURL';
+import { getAdminToken } from '../../../utils/authStorage';
 
 const UpdateBook = () => {
   const { id } = useParams();
   const { data: bookData, isLoading, isError, refetch } = useFetchBookByIdQuery(id);
   // console.log(bookData)
-  const [updateBook] = useUpdateBookMutation();
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   useEffect(() => {
     if (bookData) {
       setValue('title', bookData.title);
@@ -41,7 +41,7 @@ const UpdateBook = () => {
       await axios.put(`${getBaseUrl()}/api/books/edit/${id}`, updateBookData, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${getAdminToken()}`
         }
       })
       Swal.fire({
@@ -55,7 +55,10 @@ const UpdateBook = () => {
       });
       await refetch()
     } catch (error) {
-      console.log("Failed to update book.");
+      console.error("Failed to update book.", {
+        status: error?.response?.status,
+        message: error?.response?.data?.message || error.message,
+      });
       alert("Failed to update book.");
     }
   }

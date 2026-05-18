@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 import { useAuth } from "./AuthContext";
 import marketplaceApi from "../services/marketplaceApi";
@@ -37,6 +37,10 @@ const safeRead = (key) => {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : [];
   } catch (error) {
+    console.warn("[MARKETPLACE] Failed to read local collection", {
+      key,
+      message: error.message,
+    });
     return [];
   }
 };
@@ -104,7 +108,7 @@ export const MarketplaceProvider = ({ children }) => {
     persist(HISTORY_KEY, borrowHistory);
   }, [borrowHistory]);
 
-  const submitBorrowRequest = async ({ book, duration }) => {
+  const submitBorrowRequest = useCallback(async ({ book, duration }) => {
     if (!currentUser) {
       throw new Error("Please log in to request a borrow.");
     }
@@ -130,6 +134,9 @@ export const MarketplaceProvider = ({ children }) => {
       showToast("Borrow request sent");
       return savedRequest;
     } catch (error) {
+      console.warn("[MARKETPLACE] Borrow API failed, falling back to local state", {
+        message: error?.response?.data?.message || error.message,
+      });
       setBorrowRequests((prev) => [payload, ...prev]);
       setBorrowHistory((prev) => [payload, ...prev]);
       showToast("Borrow request saved locally", "info");
@@ -137,9 +144,9 @@ export const MarketplaceProvider = ({ children }) => {
     } finally {
       setSubmittingBorrow(false);
     }
-  };
+  }, [currentUser]);
 
-  const submitExchangeRequest = async ({ book, offeredBook }) => {
+  const submitExchangeRequest = useCallback(async ({ book, offeredBook }) => {
     if (!currentUser) {
       throw new Error("Please log in to send an exchange request.");
     }
@@ -165,13 +172,16 @@ export const MarketplaceProvider = ({ children }) => {
       showToast("Exchange request sent");
       return savedRequest;
     } catch (error) {
+      console.warn("[MARKETPLACE] Exchange API failed, falling back to local state", {
+        message: error?.response?.data?.message || error.message,
+      });
       setExchangeRequests((prev) => [payload, ...prev]);
       showToast("Exchange request saved locally", "info");
       return payload;
     } finally {
       setSubmittingExchange(false);
     }
-  };
+  }, [currentUser]);
 
   const value = useMemo(
     () => ({
@@ -184,7 +194,16 @@ export const MarketplaceProvider = ({ children }) => {
       submitBorrowRequest,
       submitExchangeRequest,
     }),
-    [borrowRequests, exchangeRequests, borrowHistory, loading, submittingBorrow, submittingExchange]
+    [
+      borrowRequests,
+      exchangeRequests,
+      borrowHistory,
+      loading,
+      submittingBorrow,
+      submittingExchange,
+      submitBorrowRequest,
+      submitExchangeRequest,
+    ]
   );
 
   return <MarketplaceContext.Provider value={value}>{children}</MarketplaceContext.Provider>;

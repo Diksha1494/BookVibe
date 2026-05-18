@@ -118,6 +118,12 @@
   border: 1px solid var(--border-color);
 }
 
+.marketplace-btn-danger {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.24);
+}
+
 .marketplace-card {
   padding: 1.5rem;
 }
@@ -237,11 +243,55 @@
   margin-bottom: 1rem;
 }
 
+.request-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.request-card-image {
+  width: 72px;
+  height: 96px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: var(--surface-muted);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
+}
+
 .request-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   color: var(--text-soft);
+}
+
+.request-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.request-card-skeleton {
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.request-card-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  animation: marketplace-shimmer 1.2s infinite;
+}
+
+@keyframes marketplace-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .book-badge,
@@ -280,6 +330,16 @@
 .status-badge-pending {
   background: rgba(37, 99, 235, 0.16);
   color: #1d4ed8;
+}
+
+.status-badge-approved {
+  background: rgba(22, 163, 74, 0.16);
+  color: #15803d;
+}
+
+.status-badge-rejected {
+  background: rgba(220, 38, 38, 0.14);
+  color: #dc2626;
 }
 
 .status-badge-exchanged {
@@ -512,6 +572,7 @@
   .marketplace-modal-header,
   .marketplace-modal-actions,
   .request-card-header,
+  .request-card-actions,
   .listing-card-actions {
     flex-direction: column;
   }

@@ -6,6 +6,8 @@ const statusClasses = {
   reserved: "status-badge status-badge-reserved",
   inactive: "status-badge status-badge-inactive",
   pending: "status-badge status-badge-pending",
+  approved: "status-badge status-badge-approved",
+  rejected: "status-badge status-badge-rejected",
 };
 
 const formatLabel = (value) => {

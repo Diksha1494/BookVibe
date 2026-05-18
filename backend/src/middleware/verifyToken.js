@@ -3,6 +3,11 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
 const verifyToken = (req, res, next) => {
+  if (!JWT_SECRET) {
+    console.error("[AUTH] JWT_SECRET_KEY is not configured.");
+    return res.status(500).json({ message: "Server authentication is not configured." });
+  }
+
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
@@ -17,6 +22,10 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
     return next();
   } catch (error) {
+    console.warn("[AUTH] JWT verification failed", {
+      path: req.originalUrl,
+      reason: error.message,
+    });
     return res.status(403).json({ message: "Invalid credentials." });
   }
 };

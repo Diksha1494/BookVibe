@@ -12,6 +12,10 @@ const readCollection = (key) => {
     const rawValue = window.localStorage.getItem(key);
     return rawValue ? JSON.parse(rawValue) : [];
   } catch (error) {
+    console.warn("[MARKETPLACE_STORAGE] Failed to read collection", {
+      key,
+      message: error.message,
+    });
     return [];
   }
 };
