@@ -7,37 +7,47 @@ import { useAuth } from '../context/AuthContext';
 
 
 const Login = () => {
-  const [message, setMessage] = useState("")
+	  const [message, setMessage] = useState("")
+  const [submitting, setSubmitting] = useState(false)
+  const [googleSubmitting, setGoogleSubmitting] = useState(false)
   const { loginUser,signInWithGoogle} = useAuth();
-  const navigate = useNavigate()
-   const {
-        register,
-        handleSubmit,
+	  const navigate = useNavigate()
+	   const {
+	        register,
+	        handleSubmit,
         watch,
         formState: { errors },
       } = useForm()
 
 const onSubmit = async (data)=> {
  
-   try{
-    await loginUser(data.email,data.password);
-    alert("logged in successfully!");
-    navigate("/")
-    }catch(error){
-setMessage("Please enter a valid email and password")
-console.error(error)
-    }
-}
+	   try{
+      setSubmitting(true)
+      setMessage("")
+	    await loginUser(data.email,data.password);
+	    alert("logged in successfully!");
+	    navigate("/")
+	    }catch(error){
+	setMessage(error?.response?.data?.message || "Please enter a valid email and password")
+	console.error(error)
+	    } finally {
+      setSubmitting(false)
+	    }
+	}
 const handleGoogleSignIn = async() => {
-    try {
-      await signInWithGoogle();
-      alert("Login successfull1");
-      navigate("/")
-    } catch (error) {
-      alert("Sign in Failed!")
-console.error(error)
-    }
-}
+	    try {
+        setGoogleSubmitting(true)
+        setMessage("")
+	      await signInWithGoogle();
+	      alert("Login successfull1");
+	      navigate("/")
+	    } catch (error) {
+	      setMessage(error?.response?.data?.message || "Google sign in failed")
+	console.error(error)
+	    } finally {
+        setGoogleSubmitting(false)
+	    }
+	}
   return (
     <div className='login-container'>
       <div className='login-box'>
@@ -69,12 +79,12 @@ console.error(error)
             />
           </div>
 
-          {message && <p className='error-text'>{message}</p>}
+	          {message && <p className='error-text'>{message}</p>}
 
-          <div>
-            <button className='login-button' >Login</button>
-          </div>
-        </form>
+	          <div>
+	            <button className='login-button' disabled={submitting}>{submitting ? "Logging in..." : "Login"}</button>
+	          </div>
+	        </form>
 
         <p className='redirect-text'>
           Haven't an account? Please <Link to="/register" className='text-blue-500 hover:text-blue-700' style={{textDecoration:"none"}}>Register</Link>
@@ -82,14 +92,16 @@ console.error(error)
 
         {/* Google sign in */}
         <div className='mt-4'>
-          <button
-            onClick={handleGoogleSignIn}
-            className='google-button'
-          >
-            <FaGoogle className='mr-2' />
-            Sign in with Google
-          </button>
-        </div>
+	          <button
+            type="button"
+	            onClick={handleGoogleSignIn}
+	            className='google-button'
+            disabled={googleSubmitting}
+	          >
+	            <FaGoogle className='mr-2' />
+	            {googleSubmitting ? "Signing in..." : "Sign in with Google"}
+	          </button>
+	        </div>
 
         <p className='footer-text'>Copyright 2025 BookVibe. All rights reserved.</p>
       </div>

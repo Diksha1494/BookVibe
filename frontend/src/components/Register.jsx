@@ -22,7 +22,7 @@ const Register = () => {
     try{
     await registerUser(data.email,data.password, data.username);
     alert("User registered successfully!")
-    navigate("/")
+    navigate("/login")
     }catch(error){
 setMessage("Please enter a valid email and password")
 console.error(error)

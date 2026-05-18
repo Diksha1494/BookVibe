@@ -49,13 +49,13 @@ const AdminLogin = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                        <label className="admin-label" htmlFor="username">Username</label>
+                        <label className="admin-label" htmlFor="email">Email</label>
                         <input
-                            {...register("username", { required: true })}
-                            type="text"
-                            name="username"
-                            id="username"
-                            placeholder="Username"
+                            {...register("email", { required: true })}
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="admin@gmail.com"
                             className="admin-input"
                         />
                     </div>

@@ -3,15 +3,22 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const aiRoutes = require("./routes/ai");
-const bookRoutes = require("./src/books/book.route");
-const orderRoutes = require("./src/orders/order.route");
-const userRoutes = require("./src/users/user.route");
-const adminRoutes = require("./src/stats/admin.stats");
+const aiRoutes = require("./routes/ai.js");
+const bookRoutes = require("./src/books/book.route.js");
+const orderRoutes = require("./src/orders/order.route.js");
+const userRoutes = require("./src/users/user.route.js");
+const adminRoutes = require("./src/stats/admin.stats.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
 const isVercel = Boolean(process.env.VERCEL);
+
+console.log("[BOOT] Backend starting", {
+  isVercel,
+  cwd: process.cwd(),
+  hasDbUrl: Boolean(process.env.DB_URL),
+  hasJwtSecret: Boolean(process.env.JWT_SECRET_KEY),
+});
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -81,8 +88,24 @@ app.get("/", (req, res) => {
 app.use("/api/ai", aiRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/auth", (req, res, next) => {
+  console.log("[AUTH_ROUTE] Request reached /api/auth", {
+    method: req.method,
+    path: req.path,
+    originalUrl: req.originalUrl,
+  });
+  next();
+});
 app.use("/api/auth", userRoutes);
 app.use("/api/admin", adminRoutes);
+
+console.log("[BOOT] Routes mounted", {
+  ai: "/api/ai",
+  books: "/api/books",
+  orders: "/api/orders",
+  auth: "/api/auth",
+  admin: "/api/admin",
+});
 
 if (!isVercel) {
   connectToDatabase()

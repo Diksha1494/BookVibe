@@ -1,67 +1,108 @@
 import { useContext, createContext, useState, useEffect } from "react";
+import axios from "axios";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.congif";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import getBaseUrl from "../utils/baseURL";
 
 const AuthContext = createContext();
+
 export const useAuth = () => {
-    return useContext(AuthContext)
+  return useContext(AuthContext);
+};
 
-    
-}
 const googleProvider = new GoogleAuthProvider();
-//auth provider
-export const AuthProvide = ({children}) => {
-      const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+const USER_TOKEN_KEY = "userToken";
+const ADMIN_TOKEN_KEY = "token";
 
-       // register a user
-    const registerUser = async (email,password,username) => {
-        const userCredential = await createUserWithEmailAndPassword (auth, email, password);
-        if (username?.trim()) {
-            await updateProfile(userCredential.user, { displayName: username.trim() });
-        }
-        return userCredential;
-}
-//login the user
-const loginUser = async(email,password)=>{
-    return await signInWithEmailAndPassword(auth, email, password)
-}
-//sign up with google
-const signInWithGoogle = async()=>{
-    return await signInWithPopup(auth,googleProvider)
-}
+export const AuthProvide = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-//logout the user
-const logout = ()=>{
-return signOut(auth)
-}
+  const syncUserFromToken = async () => {
+    const token = localStorage.getItem(USER_TOKEN_KEY);
 
-//manage user
-useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth,(user)=>{
-        setCurrentUser(user);
-        setLoading(false);
-if(user){
-    const {email,displayName,photoURl}=user;
-    const userData = {
-        email,username:displayName,photo:photoURl
+    if (!token) {
+      setCurrentUser(null);
+      setLoading(false);
+      return;
     }
-}
-    })
-    return()=> unsubscribe();
-},[])
+
+    try {
+      const response = await axios.get(`${getBaseUrl()}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCurrentUser(response.data.user);
+    } catch (error) {
+      localStorage.removeItem(USER_TOKEN_KEY);
+      setCurrentUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    syncUserFromToken();
+  }, []);
+
+  const registerUser = async (email, password, username) => {
+  const response = await axios.post(`${getBaseUrl()}/api/auth/register`, {
+    email,
+    password,
+    username,
+  });
+
+  return response.data;
+};
+
+  const loginUser = async (email, password) => {
+    const response = await axios.post(`${getBaseUrl()}/api/auth/login`, {
+      email,
+      password,
+    });
+
+    localStorage.setItem(USER_TOKEN_KEY, response.data.token);
+    setCurrentUser(response.data.user);
+    return response.data;
+  };
+
+  const signInWithGoogle = async () => {
+    const popupResult = await signInWithPopup(auth, googleProvider);
+    const googleUser = popupResult.user;
+
+    const response = await axios.post(`${getBaseUrl()}/api/auth/google`, {
+      email: googleUser.email,
+      username: googleUser.displayName || googleUser.email?.split("@")[0],
+    });
+
+    localStorage.setItem(USER_TOKEN_KEY, response.data.token);
+    setCurrentUser({
+      ...response.data.user,
+      displayName: googleUser.displayName || response.data.user?.username,
+      photoURL: googleUser.photoURL || "",
+    });
+
+    return response.data;
+  };
+
+  const logout = async () => {
+    await signOut(auth).catch(() => {});
+    localStorage.removeItem(USER_TOKEN_KEY);
+    localStorage.removeItem(ADMIN_TOKEN_KEY);
+    setCurrentUser(null);
+  };
 
   const value = {
-        currentUser,
-        loading,
-         registerUser,
-         loginUser,
-         signInWithGoogle,
-         logout
-  }
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+    currentUser,
+    loading,
+    registerUser,
+    loginUser,
+    signInWithGoogle,
+    logout,
+    refreshCurrentUser: syncUserFromToken,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

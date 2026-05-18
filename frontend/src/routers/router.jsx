@@ -19,6 +19,10 @@ import UpdateBook from "../pages/dashboard/EditBook/UpdateBook";
 import UserDashboard from "../pages/dashboard/users/UserDashBoard";
 import ManageBooks from "../pages/dashboard/ManageBook/ManageBooks";
 import Recommendations from "../components/Recommendations";
+import SellBook from "../pages/marketplace/SellBook";
+import MyListings from "../pages/marketplace/MyListings";
+import BorrowRequests from "../pages/marketplace/BorrowRequests";
+import ExchangeRequests from "../pages/marketplace/ExchangeRequests";
 
 const router = createBrowserRouter([
     {
@@ -72,6 +76,22 @@ const router = createBrowserRouter([
         {
           path: "/user-dashboard",
           element: <PrivateRoute><UserDashboard/></PrivateRoute>
+        },
+        {
+          path: "/sell-book",
+          element: <PrivateRoute><SellBook/></PrivateRoute>
+        },
+        {
+          path: "/my-listings",
+          element: <PrivateRoute><MyListings/></PrivateRoute>
+        },
+        {
+          path: "/borrow-requests",
+          element: <PrivateRoute><BorrowRequests/></PrivateRoute>
+        },
+        {
+          path: "/exchange-requests",
+          element: <PrivateRoute><ExchangeRequests/></PrivateRoute>
         },
         {
   path: "/recommend",
