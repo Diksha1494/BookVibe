@@ -77,6 +77,9 @@ export const AuthProvide = ({ children }) => {
 
   // Handle Google redirect login
   const handleGoogleRedirect = async () => {
+    if (!auth) {
+      return;
+    }
 
     try {
 
@@ -164,6 +167,10 @@ export const AuthProvide = ({ children }) => {
 
   // Google Login
   const signInWithGoogle = async () => {
+    if (!auth) {
+      alert("Google Sign-In is not configured. Please use a regular account to log in, or set up Firebase environment variables.");
+      return;
+    }
 
     try {
 
@@ -179,8 +186,9 @@ export const AuthProvide = ({ children }) => {
 
   // Logout
   const logout = async () => {
-
-    await signOut(auth).catch(() => {});
+    if (auth) {
+      await signOut(auth).catch(() => {});
+    }
 
     clearAllAuthSessions();
 
