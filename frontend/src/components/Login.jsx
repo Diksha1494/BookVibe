@@ -43,7 +43,7 @@ const handleGoogleSignIn = async() => {
         setGoogleSubmitting(true)
         setMessage("")
 	      await signInWithGoogle();
-	      alert("Login successfull1");
+	      alert("Login successful");
 	      navigate("/")
 	    } catch (error) {
 	      setMessage(error?.response?.data?.message || "Google sign in failed")

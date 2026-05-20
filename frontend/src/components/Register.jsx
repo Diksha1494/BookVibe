@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
     const [message, setMessage] = useState("")
+    const [submitting, setSubmitting] = useState(false)
+    const [googleSubmitting, setGoogleSubmitting] = useState(false)
     const { registerUser,signInWithGoogle } = useAuth()
     const navigate = useNavigate()
      const {
@@ -19,22 +21,33 @@ const Register = () => {
   const onSubmit = async(data)=> {
     
     try{
+    setSubmitting(true)
+    setMessage("")
     await registerUser(data.email,data.password, data.username);
     alert("User registered successfully!")
-    navigate("/login")
+    navigate("/")
     }catch(error){
-setMessage("Please enter a valid email and password")
-console.error(error)
+setMessage(error?.response?.data?.message || "Please enter a valid email and password.")
+console.error("[REGISTER_UI]", {
+  status: error?.response?.status,
+  message: error?.response?.data?.message || error.message,
+})
+    } finally {
+      setSubmitting(false)
     }
   }
  const handleGoogleSignIn = async() => {
     try {
+      setGoogleSubmitting(true)
+      setMessage("")
       await signInWithGoogle();
-      alert("Registered successfull1");
+      alert("Registered successfully");
       navigate("/")
     } catch (error) {
-      alert("Sign in Failed!")
+      setMessage(error?.response?.data?.message || "Google sign in failed.")
 console.error(error)
+    } finally {
+      setGoogleSubmitting(false)
     }
 }
   return (
@@ -87,7 +100,7 @@ console.error(error)
           {message && <p className='error-text'>{message}</p>}
 
           <div>
-            <button className='login-button'>Register</button>
+            <button className='login-button' disabled={submitting}>{submitting ? "Registering..." : "Register"}</button>
           </div>
         </form>
 
@@ -98,11 +111,13 @@ console.error(error)
         {/* Google sign in */}
         <div className='mt-4'>
           <button
+            type="button"
             onClick={handleGoogleSignIn}
             className='google-button'
+            disabled={googleSubmitting}
           >
             <FaGoogle className='mr-2' />
-            Sign Up with Google
+            {googleSubmitting ? "Signing up..." : "Sign Up with Google"}
           </button>
         </div>
 

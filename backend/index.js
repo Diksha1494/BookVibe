@@ -8,8 +8,6 @@ const bookRoutes = require("./src/books/book.route.js");
 const orderRoutes = require("./src/orders/order.route.js");
 const userRoutes = require("./src/users/user.route.js");
 const adminRoutes = require("./src/stats/admin.stats.js");
-const borrowRoutes = require("./src/borrow/borrow.route.js");
-const exchangeRoutes = require("./src/exchange/exchange.route.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -90,8 +88,6 @@ app.get("/", (req, res) => {
 app.use("/api/ai", aiRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/borrow", borrowRoutes);
-app.use("/api/exchange", exchangeRoutes);
 app.use("/api/auth", (req, res, next) => {
   console.log("[AUTH_ROUTE] Request reached /api/auth", {
     method: req.method,
@@ -107,8 +103,6 @@ console.log("[BOOT] Routes mounted", {
   ai: "/api/ai",
   books: "/api/books",
   orders: "/api/orders",
-  borrow: "/api/borrow",
-  exchange: "/api/exchange",
   auth: "/api/auth",
   admin: "/api/admin",
 });

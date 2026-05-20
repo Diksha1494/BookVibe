@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { HiOutlineHeart, HiOutlineXMark } from "react-icons/hi2";
 import { IoSearchOutline, IoMenuOutline } from "react-icons/io5";
 import { HiOutlineHome, HiOutlineUser, HiOutlineShoppingCart, HiSparkles } from "react-icons/hi";
-import { MdOutlineShoppingBag, MdOutlineStorefront } from "react-icons/md";
+import { MdOutlineShoppingBag } from "react-icons/md";
 import "./Navbar.css";
 import { useSelector } from "react-redux";
 import { useAuth } from "../context/AuthContext";
@@ -13,7 +13,6 @@ import bookvibeLogo from "../assets/bookvibe-logo.svg";
 const desktopNavigation = [
   { name: "Home", href: "/", icon: HiOutlineHome },
   { name: "Orders", href: "/orders", icon: MdOutlineShoppingBag },
-  { name: "Marketplace", href: "/sell-book", icon: MdOutlineStorefront, requiresAuth: true },
   { name: "BooksyAI", href: "/recommend", icon: HiSparkles },
 ];
 
