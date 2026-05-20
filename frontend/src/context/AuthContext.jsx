@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   GoogleAuthProvider,
   signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   signOut,
 } from "firebase/auth";
@@ -111,6 +112,15 @@ export const AuthProvide = ({ children }) => {
 
           photoURL: googleUser.photoURL || "",
         });
+
+        // Safely redirect to homepage if user gets stuck on login/register screens during redirect flow
+        if (
+          window.location.pathname === "/login" ||
+          window.location.pathname === "/register" ||
+          window.location.pathname === "/signup"
+        ) {
+          window.location.replace("/");
+        }
       }
 
     } catch (error) {
@@ -174,7 +184,30 @@ export const AuthProvide = ({ children }) => {
 
     try {
 
-      await signInWithRedirect(auth, googleProvider);
+      const popupResult = await signInWithPopup(auth, googleProvider);
+      const googleUser = popupResult.user;
+
+      const response = await axios.post(
+        `${getBaseUrl()}/api/auth/google`,
+        {
+          email: googleUser.email,
+          username:
+            googleUser.displayName ||
+            googleUser.email?.split("@")[0],
+        }
+      );
+
+      saveUserSession(response.data);
+
+      setCurrentUser({
+        ...response.data.user,
+        displayName:
+          googleUser.displayName ||
+          response.data.user?.username,
+        photoURL: googleUser.photoURL || "",
+      });
+
+      return response.data;
 
     } catch (error) {
 
