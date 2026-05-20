@@ -68,6 +68,14 @@ app.use(
 
 app.use(express.json());
 
+// Normalizes URLs when Vercel strips the /api prefix in Multi-Project (Services) deployments
+app.use((req, res, next) => {
+  if (req.url !== "/" && !req.url.startsWith("/api")) {
+    req.url = "/api" + req.url;
+  }
+  next();
+});
+
 app.use(async (req, res, next) => {
   try {
     await connectToDatabase();
